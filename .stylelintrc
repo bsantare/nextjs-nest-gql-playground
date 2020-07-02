@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-config-styled-components",
+    "stylelint-order"
+  ],
+  "syntax": "scss",
+  "rules":{
+    "value-list-max-empty-lines": null,
+    "declaration-colon-newline-after": null,
+    "property-no-vendor-prefix": null
+  }
+}

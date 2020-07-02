@@ -1,0 +1,38 @@
+{
+  "rootDir": "./",
+  "extends": "../../tsconfig.json",
+  "target": "es5",
+  "noEmit": true,
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@libs/*": [
+        "src/lib/*"
+      ],
+      "@styles": [
+        "src/styles"
+      ]
+    },
+    "target": "es5",
+    "noEmit": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
+}
