@@ -1,9 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { CenteringBorderContainer, CenteringContainer, FlowContainer } from '@styles';
+import { useSaySomeHackerThingsQuery } from '../types/generated/server-gql';
+import { apolloClient } from '@libs/apolloClient';
 
 export default function Home() {
+  const [isLoading, setLoading] = useState(false);
+
+  const { data, loading, error, refetch } = useSaySomeHackerThingsQuery({
+    client: apolloClient,
+    fetchPolicy: 'network-only',
+    variables: {
+      messageCount: 3,
+    },
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoading(true);
+      refetch();
+    }, 7500);
+    return () => clearInterval(interval);
+  }, [refetch]);
+
+  useEffect(() => {
+    if (!loading && isLoading) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  }, [isLoading, loading]);
+
+  const list =
+    data &&
+    data.saySomeHackerThings.map((hackerThing) => (
+      <div key={hackerThing.id}>
+        <CenteringBorderContainer>
+          <h3>{hackerThing.message}</h3>
+        </CenteringBorderContainer>
+      </div>
+    ));
+
+  if (error) {
+    return <CenteringContainer>Error loading hacker stuff</CenteringContainer>;
+  }
+
   return (
     <>
       <Head>
@@ -48,6 +90,15 @@ export default function Home() {
                 <a>SSR Dynamic route non-existent color</a>
               </Link>
             </CenteringBorderContainer>
+            {isLoading ? (
+              <CenteringContainer>
+                <CenteringBorderContainer>
+                  <h3>Loading...</h3>
+                </CenteringBorderContainer>
+              </CenteringContainer>
+            ) : (
+              <FlowContainer>{list}</FlowContainer>
+            )}
           </FlowContainer>
         </CenteringContainer>
       </main>

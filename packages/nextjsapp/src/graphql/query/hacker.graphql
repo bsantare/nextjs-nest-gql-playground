@@ -1,0 +1,15 @@
+query SaySomeHackerThing {
+    saySomeHackerThing{
+        id
+        message
+        timestamp
+    }
+}
+
+query SaySomeHackerThings($messageCount: Int!) {
+    saySomeHackerThings(messageCount: $messageCount){
+        id
+        message
+        timestamp
+    }
+}
